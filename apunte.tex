@@ -1,0 +1,935 @@
+\documentclass[a4paper,spanish]{article}
+
+\usepackage[spanish,activeacute]{babel}
+\usepackage{moreverb}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{theorem,amsmath,amssymb,latexsym}
+\usepackage{enumerate,color}
+
+\oddsidemargin 0in
+\textwidth 6.2in
+\topmargin 0in
+\addtolength{\topmargin}{-.5in}
+\textheight 10in
+\parskip=1ex
+\pagestyle{fancy}
+%usar el segundo nivel de enumeracion con letras
+%\Rnewcommand{\labelenumii}{\alph{enumii}. }
+
+\newcommand{\Rv}{\marginpar{REVISAR}}
+\newcommand{\nohecho}{\marginpar{NO HECHO}}
+\newcommand{\note}[1]{\textcolor{red}{#1} \Rv}
+
+%espaciado
+\newcommand{\vsp}{\vspace{0.4cm}}
+\newcommand{\hsp}{\hspace*{0.12cm}}
+
+%comandos para el resumen
+\newcommand{\tab}{\hspace*{1cm}}
+\newcommand{\llamada}[1]{\begin{center} \bfseries #1 \mdseries \end{center}}
+\newcommand{\nota}[1]{\vsp\defi{Nota}{#1}\vsp}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\norma}[1]{\left\|#1\right\|}
+\newcommand{\limite}[2]{\lim_{ #1 \rightarrow #2}}
+\newcommand{\xx}[0]{\mathbf{x}}
+\newcommand{\xO}[0]{\mathbf{x_0}}
+\newcommand{\yO}[0]{\mathbf{y_0}}
+\newcommand{\comp}[0]{\circ}
+\newcommand{\parcial}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\D}[0]{\mathbf{D}}
+\newcommand{\He}[0]{\mathbf{H}}
+%\newcommand{\J}[0]{\mathbf{J}}
+\newcommand{\grad}[0]{\bigtriangledown}
+\newcommand{\eps}[0]{\varepsilon}
+\newcommand{\lthen}[0]{\Rightarrow}
+
+\newtheorem{teo}{Teorema}
+\newtheorem{lema}{Lema}
+\newtheorem{coro}{Corolario}
+\newtheorem{defi}{Definici\'on}
+
+% proof
+\newenvironment{demo}{{\noindent \textbf{Demo: }}}{\hfill\rule{2mm}{2mm}\par}
+
+
+\newcommand{\nat}[0]{\textrm{\textbf{N}}}
+\newcommand{\Ral}[0]{\textrm{\textbf{R}}}
+
+%noindent en todos lados
+\parindent=0in 
+
+\lhead{An\'alisis I (M) - Matem\'atica I (F) - An\'{a}lisis II (C)}
+\rhead{Apunte de repaso general}
+
+\cfoot{$\thepage$ de \pageref{theend}}
+
+\begin{document}
+
+Disclaimer: Este apunte no es autocontenido y fue pensado como un repaso 
+de los conceptos, no para aprenderlos de aqu'i directamente.
+%\begin{multicols}{2}
+%\tableofcontents
+%\end{multicols}
+
+\section{L\'imites y continuidad}
+
+\begin{defi}[Gr'afica]
+\label{def-grafica}
+La \emph{gr'afica} de una funci'on $f: U \subseteq \R^n \to \R$ es 
+$Gr(f) \subseteq \R^{n+1} = \{(x_1,...,x_n,f(x_1,...,x_n)\}$.
+\end{defi}
+
+\begin{defi}[Conjunto de nivel]
+\label{def-conj-nivel}
+El \emph{conjunto de nivel} de valor $c$ de una funci'on 
+$f: U \subseteq \R^n \to \R$ es $\{\xx \in U | f(\xx) = c\}$.
+Si $n = 2$ lo llamamos tambi'en \emph{curva de nivel}.
+\end{defi}
+
+\begin{defi}[Abierto]
+\label{def-abierto}
+Un conjunto $U \subseteq \R^n$ es \emph{abierto} sii $\forall \xx \in U
+\ \exists r > 0\ D_r(x) \subseteq U$.
+\end{defi}
+
+\begin{teo}[Un disco es abierto]
+\label{teo-D-abierto}
+Para cada $\xx \in \R^n$ y $r > 0$, $D_r(\xx)$ es un conjunto 
+abierto.
+\end{teo}
+
+\begin{defi}[Frontera]
+\label{def-frontera}
+Los \emph{puntos frontera} $x$ de un conjunto $A \subseteq \R^n$ son los que
+para toda vecindad de $x$ contiene al menos un punto de $A$ y un punto de 
+$\R^n \setminus A$.
+\end{defi}
+
+\begin{defi}[L'imite]
+\label{def-limite}
+Sea $f : A \subseteq \R^n \to \R^m$, donde $A$ es un abierto. Sea
+$\xO$ un punto de $A$ o frontera de $A$. Decimos que el \emph{l'imite}
+de $f$ cuando $\xx$ tiende a $\xO$ es $\mathbf{b}$ sii para 
+cualquier vecindad $V$ de $\mathbf{b}$ existe una vecindad $U$ de
+$\xO$ tal que $\xx \in (U \setminus \{\xO\})$ implica $f(\xx) \in V$.
+Alternativamente, para todo $\eps$ existe un $\delta$ tal que 
+$\norma{\xx - \xO} < \delta$ implica 
+$\norma{f(\xx) - \mathbf{b}} < \eps$. Escribimos:
+$$\limite{\xx}{\xO} f(\xx) = \mathbf{b}.$$
+\end{defi}
+
+\begin{teo}[Unicidad de limite]
+\label{teo-unico-limite}
+Si $\limite{\xx}{\xO} f(\xx) = \mathbf{b_1}$ y 
+$\limite{\xx}{\xO} f(\xx) = \mathbf{b_2}$ entonces 
+$\mathbf{b_1} = \mathbf{b_2}$.
+\end{teo}
+
+\begin{teo}[Propiedades de l'imite]
+\label{teo-propiedades-limite}
+Sea $f : A \subseteq \R^n \to \R^m$, $g : A \subseteq \R^n \to \R^m$, $\xO$
+un punto de A o de su frontera, $\mathbf{b}, \mathbf{b_1}, \mathbf{b_2} \in 
+\R^m$ y $c \in \R$. Se cumple que:
+\begin{enumerate}[i]
+\item Si $\limite{\xx}{\xO} f(\xx) = \mathbf{b}$ entonces 
+$\limite{\xx}{\xO} cf(\xx) = c\mathbf{b}$.
+\item Si $\limite{\xx}{\xO} f(\xx) = \mathbf{b_1}$ y 
+$\limite{\xx}{\xO} g(\xx) = \mathbf{b_2}$ entonces
+$\limite{\xx}{\xO} f(\xx)+g(\xx) = \mathbf{b_1} + \mathbf{b_2}$.
+\item Si $m = 1$, $\limite{\xx}{\xO} f(\xx) = b_1$ y 
+$\limite{\xx}{\xO} g(\xx) = b_2$ entonces
+$\limite{\xx}{\xO} f(\xx)g(\xx) = b_1 b_2$.
+\item Si $m = 1$, $\limite{\xx}{\xO} f(\xx)  = b$ y $f(\xx) \neq 0$
+para todo $\xx \in A$ entonces $\limite{\xx}{\xO} 1/f(\xx) = 1/b$
+\item Si $f(\xx) = (f_1(\xx),...,f_m(\xx))$ entonces 
+$\limite{\xx}{\xO} f(\xx) = (b_1,...,b_n)$ sii 
+$\forall i\ \limite{\xx}{\xO} f_i(\xx) = b_i$.
+\end{enumerate}
+\end{teo}
+
+\begin{defi}[Continuidad]
+\label{def-continua}
+Sea $f : A \subseteq \R^n \to \R^m$. Sea $\xO \in A$. $f$ es \emph{continua}
+en $\xO$ sii $\limite{\xx}{\xO} f(\xx) = f(\xO)$. $f$ es \emph{continua} si 
+es continua en todo punto de su dominio.
+\end{defi}
+
+\begin{teo}[Propiedades de funciones continuas]
+\label{teo-propiedades-continua}
+Sean $f,g : A \subseteq \R^n \to \R^m$ continuas en $\xO$ y 
+$c \in \R$. Se cumple que:
+\begin{enumerate}[i]
+\item $cf$ es continua en $\xO$.
+\item $f + g$ es continua en $\xO$.
+\item Si $m = 1$ $fg$ es continua en $\xO$.
+\item Si $m = 1$ y $f$ no se anula en $A$ entonces $1/f$ es continua en $\xO$. 
+Se puede pedir equivalentemente $f(\xO) \neq 0$ ya que $f$ es continua y esto
+implica que ser'ia distinta de $0$ en una vecindad de $\xO$.
+\item $f(\xx) = (f_1(\xx),...,f_m(\xx))$ sii
+$\forall i\ {f_i(\xx)}$ es continua en $\xO$.
+\end{enumerate}
+\end{teo}
+
+\begin{teo}[Composici'on de continuas es continua]
+\label{teo-composicion-continua}
+Sean $f : B \subseteq \R^n \to \R^m$ y $g : A \subseteq \R^n \to \R^m$ tal
+que $g(A) \subseteq B$, $g$ es continua en $\xO$ y $f$ es continua en $g(\xO)$.
+$f \comp g$ es continua en $\xO$.
+\end{teo}
+
+\begin{defi}[Continuidad uniforme]
+\label{def-continua}
+Sea $f : A \subseteq \R^n \to \R^m$. $f$ es \emph{uniformemente continua} sii
+para todo $\eps > 0$ existe un $\delta > 0$ tal que para toda pareja de puntos
+de $A$ $\xO$ y $\yO$ tal que $\norma{\xO-\yO} < \delta$ se cumple que
+$\norma{f(\xO) - f(\yO)} < \eps$.
+\end{defi}
+
+\begin{teo}[Una sucesi'on en un compacto tiene una subsucesi'on convergente]
+\label{teo-subsuc-convergente}
+Sea $A$ un compacto y $(a_n)_{n \in \N}$ una sucesi'on de elementos de $A$.
+$a_n$ tiene una subsucesi'on convergente.
+\end{teo}
+
+\section{Diferenciaci\'on}
+
+\begin{defi}[Derivada parcial]
+\label{def-derivada-parcial}
+Sea $f : U \subseteq \R^n \to \R$ donde $U$ es un abierto. La \emph{derivada
+parcial} respecto de la $i$-'esima variable est'a dada por
+$$\parcial{f}{x_i} (x_1,...,x_n) = \limite{h}{0} 
+	\frac{f(x_1,...,x_i+h,...,x_n) - f(x_1,...,x_n)}{h}$$
+si el l'imite existe (sino, la derivada parcial no existe).
+\end{defi}
+
+\begin{defi}[Diferencial]
+\label{def-matriz-diferencial}
+Sea $f : U \subseteq \R^n \to \R^m$. La \emph{matriz diferencial} de
+$f = (f_1,...,f_n)$ $\D f$ est'a dada por:
+$$\left[
+\begin{array}{ccc}
+\parcial{f_1}{x_1} & \cdots & \parcial{f_1}{x_n} \\
+\vdots &  & \vdots \\
+\parcial{f_m}{x_1} & \cdots & \parcial{f_m}{x_n} \\
+\end{array}
+\right]$$
+\end{defi}
+
+\begin{defi}[Gradiente]
+\label{def-gradiente}
+Sea $f : U \subseteq \R^n \to \R$, el \emph{gradiente} de $f$ $\grad f$ es la
+matriz diferencial de $\D f$. O sea, la matriz diferencial tiene por filas
+los gradientes de las componentes $f_1,...,f_n$ de $f$.
+\end{defi}
+
+\begin{defi}[Diferenciabilidad]
+\label{def-diferenciabilidad}
+Sea $f : U \subseteq \R^n \to \R^m$ con $U$ abierto. $f$ es
+\emph{diferenciable} en $\xO \in U$ si:
+$$\limite{\xx}{\xO}\frac{\norma{f(\xx) - f(\xO) - \D f(\xO) (\xx - \xO)}}
+                   {{\norma{\xx - \xO}}} = 0.$$
+\end{defi}
+
+\begin{teo}[Diferenciable implica continua]
+\label{teo-diferenciable-continua}
+Si $f : U \subseteq \R^n \to \R^m$ es diferenciable en $\xO \in U$ entonces es
+continua en $\xO$.
+\end{teo}
+
+\begin{teo}[$C^1$ implica diferenciable]
+\label{teo-c1-diferenciable}
+Si existen y son continuas todas las derivadas parciales de $f$ en $\xx$ 
+entonces $f$ es diferenciable en $\xx$.
+\end{teo}
+
+\begin{teo}[Propiedades de la diferencial]
+\label{teo-propiedades-diferencial}
+Sean $f,g : U \subseteq \R^n \to \R^m$ diferenciables en $\xO$ y $c \in \R$. 
+Se cumple que:
+\begin{enumerate}[i]
+\item $cf$ es diferenciable en $\xO$ y $\D cf(\xO) = c \D f(\xO)$.
+\item $f + g$ es diferenciable en $\xO$ y 
+	$\D (f+g)(\xO) = \D f(\xO) + \D g(\xO)$.
+\item Si $m = 1$ entonces $fg$ es diferenciable en $\xO$ y 
+	$\D (fg) (\xO) = g(\xO) \D f(\xO) + f(\xO) \D g(\xO)$.
+\item Si $m = 1$ y g no se anula en $U$ entonces $f/g$ es diferenciable y
+$$\D (f/g) (\xO) = \frac{g(\xO) \D f(\xO) - f(\xO) \D g(\xO)}{g(\xO)^2}.$$
+\end{enumerate}
+\end{teo}
+
+\begin{teo}[Regla de la cadena]
+\label{teo-cadena}
+Sean $g : U \subseteq \R^n \to \R^m$ y $f : V \subseteq \R^m \to \R^p$ tal
+que $g(U) \subseteq V$ y $U$ y $V$ son abiertos. Si $g$ es diferenciable en
+$\xO$ y $f$ es diferenciable en $g(\xO)$ entonces $f \comp g$ es diferenciable
+en $\xO$ y
+$$\D (f \comp g)(\xO) = \D f(g(\xO)) \D g(\xO).$$
+\end{teo}
+
+
+\begin{defi}[Plano tangente]
+\label{def-plano-tangente}
+Sea $f : \R^2 \to \R$ el \emph{plano tangente} a la gr'afica de $f$ en 
+$(x_0,y_0)$ est'a dado por
+$$z = f(x_0,y_0) + \grad f (x_0,y_0) (x - x_0, y - y_0).$$
+\end{defi}
+
+\begin{defi}[Derivada direccional]
+\label{def-derivada-direccional}
+La \emph{derivada direccional} de $f : \R^3 \to \R$ en $\xx$ en direcci'on
+$\mathbf{v}$ $f_\mathbf{v}(\xx)$ est'a dada por
+$\parcial{f(\xx + t \mathbf{v})}{t}$.
+\end{defi}
+
+\begin{teo}[La derivada direccional es el producto de la direcci'on con el
+gradiente]
+\label{teo-derivada-direccional-gradiente}
+Si $f$ es diferenciable en $\xx$ y $\mathbf{v}$ es un vector de norma 1, 
+$\grad f(\xx)\mathbf{v} = f_\mathbf{v}(\xx)$.
+\end{teo}
+
+\begin{teo}[El gradiente apunta en la direcci'on de m'aximo crecimiento]
+\label{teo-maximo-crecimiento}
+Si $f : \R^n \to \R$ y $\grad f(\xx) \neq 0$ entonces $\grad f$ apunta en la
+direcci'on de m'aximo crecimiento de $f$ desde $\xx$.
+\end{teo}
+
+\begin{teo}[El gradiente es normal a la superficie de nivel]
+\label{teo-gradiente-normal}
+Sea $f : \R^3 \to \R$ con todas sus derivadas parciales existentes y continuas. 
+Si $S$ es una superficie de nivel que contiene el punto $(x_0,y_0,z_0)$ 
+entonces $\grad f(x_0,y_0,z_0)$ es normal a $S$.
+\end{teo}
+
+\begin{defi}[Recta tangente a una superficie]
+\label{defi-recta-tangente-superficie}
+Sean $x,y,z : \R \to \R$ diferenciables en $t_0$. La \emph{recta tangente}
+en $t_0$ a la superficie de puntos $(x(t),y(t),z(t))$ est'a dada por la 
+ecuaci'on $(x(t_0),y(t_0),z(t_0)) + \lambda (x'(t_0),y'(t_0),z'(t_0))$.
+\end{defi}
+
+\begin{teo}[Derivadas parciales iteradas]
+\label{teo-parciales-iteradas}
+Sea $f : \R^2 \to \R$ de clase $C^2$. Se cumple que
+$$\parcial{^2 f}{x \partial y} = \parcial{^2 f}{y \partial x}.$$
+\end{teo}
+
+\begin{defi}[Extremo local]
+\label{def-extremo-local}
+Si $f : U \subseteq \R^n \to \R$ $\xO \in U$ es un \emph{m'inimo local} sii
+existe una vecindad $V$ de $\xO$ tal que $\xx \in V$ implica 
+$f(\xO) \geq f(\xx)$.
+$\xO$ es un \emph{m'aximo local} sii es m'inimo local de $-f$. Un punto es
+\emph{extremo local o relativo} si es m'inimo o m'aximo local. $\xO$ es 
+\emph{punto cr'itico} sii $f$ no es diferenciable en $\xO$ o si 
+$\D f(\xO) = \mathbf{0}$. Un punto cr'itico que no es extremo local se llama
+\emph{punto silla}.
+\end{defi}
+
+\begin{teo}[Los extremos locales son puntos cr'iticos]
+\label{teo-extremo-local}
+Si $\xO$ es extremo local de $f$ diferenciable en un abierto alrededor de 
+$\xO$, entonces $\xO$ es punto cr'itico de $f$ ($\D f(\xO) = \mathbf{0}$).
+\end{teo}
+
+\begin{defi}[Hessiano]
+\label{def-hessiano}
+El \emph{hessiano} de $f$ en $\xO$ $\He f(\xO)$ est'a dado por la matriz de las 
+derivadas parciales segundas dividido 2. Esto es 
+$$(\He f(\xO))_{i,j} = \frac{1}{2}\parcial{^2 f}{x_i \partial x_j}.$$
+El hessiano se utiliza como funci'on de $\R^n \to \R$ haciendo 
+$\He f(\xO)(\xx) = \xx^t M \xx$ donde $M$ es la matriz anteriormente descripta y 
+$\xx$ es visto como vector columna (con lo cual $\xx^t$ es fila).
+\end{defi}
+
+\begin{teo}[Polinomio de Taylor]
+Sea $f : \R^2 \to \R$. Los \emph{t'erminos de Taylor} centrado en $(x_0,y_0)$ 
+son:
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item $f(x_0,y_0)$
+\item $\grad f(x_0,y_0) (x - x_0, y - y_0)$
+\item $(x - x_0, y - y_0)^t \He f(x_0,y_0) (x - x_0, y - y_0) / 2$
+\item $\parcial{^3 f}{^3 x}(x_0,y_0) (x - x_0)^3 / 6\ +\ 
+       \parcial{^3 f}{^3 y}(x_0,y_0) (y - y_0)^3 / 6\ +\\
+       \parcial{^3 f}{^2 x \partial y}(x_0,y_0) (x - x_0)^2(y - y_0) / 2\ +\ 
+       \parcial{^3 f}{^2 y \partial x}(x_0,y_0) (x - x_0)(y - y_0)^2 / 2$
+\end{enumerate}
+El \emph{polinomio de Taylor} de 'orden $k$ est'a dado por los t'erminos 
+$0..k$ y el resto est'a dado por el t'ermino $k+1$ pero evaluado sobre alg'un 
+punto del segmento $(x,y)-(x_0,y_0)$.
+\end{teo}
+
+\begin{teo}[El Hessiano determina el tipo de extremo]
+\label{teo-max-min-relativo}
+Si $f : U \subseteq \R^n \to \R$ es de clase $C^3$, $\xO \in U$ es un punto
+cr'itico de $f$ y el $\He f(\xO)$ es definido positivo entonces $\xO$ es un 
+m'inimo relativo. Si es definido negativo, $\xO$ es un m'aximo relativo.
+\end{teo}
+
+\begin{teo}[Una funci'on sobre un compacto alcanza m'aximo y m'inimo]
+\label{teo-max-min-absoluto}
+Si $f : D \to \R$ es continua en $D \subset \R^n$ cerrado y acotado. $f$ 
+alcanza su m'aximo y m'inimo en puntos $\xO$ y $\mathbf{x_1}$ de $D$.
+\end{teo}
+
+\begin{teo}[Funci'on impl'icita]
+\label{teo-funcion-implicita}
+Sea $f : \R^{n+1} \to \R$ de clase $C^1$. Sean $\xx = (x_1,...,x_n) \in \R^n$ y
+$x_{n+1} \in \R$ tal que $\parcial{f}{x_{n+1}}(\xx, x_{n+1}) \neq 0$. 
+Dada una vecindad $V$ de $\xx$ existe una funci'on 
+$g : V \subseteq \R^n \to \R$ tal que $f(\xx, g(\xx)) = 0$ y
+$$\parcial{g}{x_i}(\xx) = - \frac{\displaystyle \parcial{f}{x_i}(\xx, g(\xx))}
+								 {\displaystyle \parcial{f}{x_{n+1}}(\xx, g(\xx))}$$.
+\end{teo}
+
+\begin{demo}
+La existencia de dicha funci'on escapa al alcance de este apunte. La derivada
+parcial sale de derivar $f(\xx, g(\xx)) = 0$ respecto de $x_i$ por regla de la
+cadena:
+\begin{eqnarray*}
+f(\xx, g(\xx)) &=& 0 \\
+\parcial{f(\xx, g(\xx))}{x_i} &=& 0 \\
+\parcial{f}{x_i}(\xx, g(\xx)) + 
+	\parcial{f}{x_{n+1}}(\xx, g(\xx)) \parcial{g}{x_i}(\xx) &=& 0 \\
+- \frac{\displaystyle \parcial{f}{x_i}(\xx, g(\xx))}
+ 	   {\displaystyle \parcial{f}{x_{n+1}}(\xx, g(\xx))} &=& 
+ 	   		\parcial{g}{x_i}(\xx)
+\end{eqnarray*}
+\end{demo}
+
+\begin{teo}[Funci'on inversa]
+\label{teo-funcion-inversa}
+Sea $f : \R^n \to \R^n$ de clase $C^1$. Sea $\xx \in \R^n$ tal que 
+$\det(\D f(\xx)) \neq 0$. Existe una inversa local $f^{-1}$ en una vecindad de
+$\xx$ y $\D f^{-1} = (\D f)^{-1}$.
+\end{teo}
+
+\begin{teo}[Multiplicadores de Lagrange]
+\label{teo-mult-lagrange}
+Sean $f,g: U \subseteq \R^n \to \R$ funciones $C^1$. Sea 
+$S = \{\xx | g(\xx) = c\}$ el conjunto de nivel $c$ de $g$. Si $\xO$ es
+extremo local de $f$ y $\grad g(\xO)$ restringida a $S$ entonces existe un
+$\lambda$ tal que $\grad f(\xO) = \lambda \grad g(\xO)$.
+\end{teo}
+
+\section{Integraci\'on}
+
+\begin{defi}[Integral]
+\label{defi-integral}
+Sea $f : [a,b] -> \R$. Consideremos la suma $\sum_{a \in A} M_a |a|$ donde 
+$A$ es una partici'on en intervalos de $[a,b]$ $M_a$ es el supremo de la 
+imagen de $f$ sobre el intervalo $a$. La \emph{integral superior} se define
+como el 'infimo de las sumas sobre todas las particiones posibles.
+La \emph{intergral inferior} se define an'alogamente pero usando $m_a$ en 
+lugar de $M_a$ (es decir, el 'infimo de la imagen de $f$ sobre el intervalo 
+$a$) y tomando el supremo del conjunto. Si ambas coinciden, decimos que $f$ es
+integrable.
+\end{defi}
+
+\begin{teo}[Continuas integrables]
+Si una funci'on es continua, entonces es integrable.
+\end{teo}
+
+\begin{teo}[Teorema fundamental del c'alculo]
+Si $f$ es continua en $[a,b]$, $x \in (a,b)$ entonces
+$$\frac{d}{dx} \int_a^x f(t) dt = f(x).$$
+\end{teo}
+
+\begin{teo}[Cambio de variables]
+Sea $T : D \subseteq \R^n \to D'$ diferenciable y biyectiva salvo un conjunto
+de puntos de medida $0$. Sea $f : T(D) \to \R$. Se cumple que
+$$\int_{T(D)} f(\mathbf{y}) d\mathbf{y} = \int_{D} f \comp T(\xx) |\D T| d\xx.$$
+\end{teo}
+
+\section{Demostraciones}
+
+\subsection{L\'imite y continuidad}
+
+\begin{enumerate}
+\item 
+Sea $A \subseteq \R$ acotado superiormente y sea $s = \sup(A)$. Probar que
+existe una sucesi'on $(a_n)_{n \in \N} \subset A$ tal que 
+$\limite{n}{\infty} a_n = s$.
+
+\begin{demo}
+Sea la familia de conjuntos $C_n$ tal que $C_n = \{a \in A | a > s - 1/n\}$.
+Veamos que $C_n$ es no vac'iio para todo $n$. Si lo fuera, eso quiere decir que
+$A = A \setminus C_n = \{a \in A | a < s - 1/n\}$ y como $s - 1/n < s$, $s$ no
+podr'ia ser el supremo de $A$. Ahora sea $(a_n)_{n \in \N}$ tal que
+$a_n \in C_n$. Es claro que $s - 1/n < a_n \leq s$. Eso quiere decir que la 
+sucesi'on $a_n$ est'a contenida entre la sucesi'on $(s - 1/n)_{n \in \N}$ y
+$(s)_{n \in \N}$, y ambas convergen a $s$, por lo tanto $a_n$ converge a $s$.
+\end{demo}
+
+\item
+Probar que toda sucesi'on de n'umeros reales mon'otona y acotada es
+convergente.
+
+\begin{demo}
+Sea $(a_n)_{n \in \N}$ la sucesi'on. Supongamos sin p'erdida de generalidad
+que es mon'otona creciente y sea $s = \sup(A)$ donde
+$A = \{a | \exists n\ a = a_n\}$. Veamos que $a_n$ converge a $s$,
+es decir, para todo $\eps > 0$ existe un $n_0$ tal que $n \geq n_0 \lthen 
+|s - a_n| < \eps$. Por definici'on de supremo, para todo $\eps > 0$
+existe un $a \in A$ tal que $s - a < \eps$. Sea $n_0$ tal que $a_{n_0} = a$
+(existe por la definici'on de $A$). Como $a_n$ es mon'otona para todo 
+$n \geq n_0$, $a_n \geq a_{n_0}$, entonces $s - a_n < s - a_{n_0} \leq \eps$.
+\end{demo}
+
+\item
+Sea $f : \R^2 \to \R$ continua en $P \in \R^2$. Si $(P_k)_{k \in \N}$ es una
+sucesi'on en $\R^2$ tal que $\limite{k}{\infty} P_k = P$, probar que
+$\limite{k}{\infty} f(P_k) = f(P)$.
+
+\begin{demo}
+Queremos ver que para todo $\eps > 0$ existe un $k_0$ tal que 
+$k \geq k_0 \lthen | f(P_k) - f(P) | < \eps$. Sea $\delta > 0$ tal que para todo 
+$Q\ \norma{P - Q} < \delta \lthen | f(P) - f(Q) | < \eps$ (existe porque $f$ 
+es continua). Sea entonces $k_0$ tal que 
+$k \geq k_0 \lthen |P - P_k| < \delta$, que existe porque $P_k$ 
+converge a $P$. De ambas definiciones se deduce directamente que
+$k \geq k_0 \lthen | f(P_k) - f(P) | < \eps$, que es lo que quer'iamos
+demostrar.
+\end{demo}
+
+\item
+Sea $K \subset \R^2$ compacto y sea $f : K \to \R$ continua. Probar que $f$ es
+acotada y alcanza su m'inimo y su m'aximo valor.
+
+\begin{demo}
+Supongamos que $f$ no es acotada superiormente. Eso quiere decir que existen
+valores en la imagen de $f$ superiores a cualquier n'umero real. Sea entonces
+la sucesi'on $(a_n)_{n \in \N}$ tal que $f(a_n) > n$. Como $a_n$ es una 
+sucesi'on de elementos de un compacto $K$, entonces tiene una subsucesi'on
+convergente, llam'emosla $(b_n)_{n \in \N}$. Como $b_i = a_j$ para alg'un
+$j \geq i$ se ve que $f(b_i) > j \geq i$. Sea $b$ el l'imite de $b_n$ que
+por ser $K$ compacto pertenece a $K$. Como $f$ es continua, la sucesi'on 
+$f(b_n)$ converge a $f(b)$. Pero $f(b_n) > n$, asi que si tomamos 
+$n_0 = [f(b)] + 2$, $n \geq n_0 \lthen f(b_n) > n \geq n_0 > f(b) + 2$ y por 
+lo tanto $|f(b) - f(b_n)|$ es siempre mayor a $1$ a partir de $n_0$, lo cual
+contradice el que $f(b_n)$ converja a $f(b)$. Esto es un absurdo que proviene
+de suponer que $f$ no es acotada superiormente. An'alogamente se ve que $f$ es
+acotada inferiormente. Sea $s$ el supremo de la imagen de $f$ y sea 
+$(a_n)_{n \in \N} \in K$ tal que $f(a_n)$ converge a $s$. Dado que $a_n$ tiene
+una subsucesi'on convergente, y que esta converge a un $a$ tal que $f(a) = s$,
+se ve que $f$ alcanza el m'aximo. An'alogamente, $f$ alcanza el m'inimo.
+\end{demo}
+
+\item
+Sea $f : [a,b] \to \R$ continua. Probar que $f$ es uniformemente continua.
+
+\begin{demo}
+Supongamos que $f$ no es uniformemente continua. Entonces existe un $\eps > 0$
+tal que para todo $\delta > 0$ existen $x$ e $y$ tal que $|x-y| < \delta$ y 
+$|f(x)-f(y)| > \eps$. Sea entonces la sucesi'on $(a_n,b_n)_{n \in \N}$ tal que
+$a_n - b_n < 1/n$ y $|f(a_n)-f(b_n)| > \eps$ (sin p'erdida de generalidad 
+asumimos siempre $a_n > b_n$ ya que podemos elegir la pareja contraejemplo para
+$\delta = 1/n$ en cualquier orden). Dado que $(a_n,b_n)$ es una sucesi'on en el
+compacto $[a,b]^2$, tiene una subsucesi'on convergente. Sea 
+$(c_n,d_n)_{n \in \N}$ dicha subsucesi'on. Dado que $(c_n,d_n)$ = $(a_m,b_m)$
+para un $m \geq n$ es claro que $c_n - d_n < 1/m \leq 1/n$. Sea $(c,d)$ el 
+l'imite de la sucesi'on $(c_n,d_n)$. Como la sucesi'on $d_n$ esta acotada
+superiormente por $c_n$ que tiende a $c$ e inferiormente por $\min(a,c_n - 1/n)$
+que tambi'en tiende a $c$, entonces $d_n$ tiende a $c$ y por lo tanto $c=d$.
+Como $f$ es continua, $f(c_n)$ y $f(d_n)$ ambas deber'ian tender a $f(c)$ y por
+lo tanto la sucesi'on $e_n = f(c_n) - f(d_n)$ deber'ia tender a $0$, pero
+la sucesi'on $e_n = f(c_n) - f(d_n)$ est'a acotada inferiormente por $\eps$
+por lo tanto tiende a $\eps$ o algo mayor. Este absurdo proviene de suponer
+que $f$ no es uniformemente continua, por lo tanto lo es.
+\end{demo}
+
+\end{enumerate}
+
+\subsection{Diferenciabilidad}
+
+\begin{enumerate}
+
+\item Sea $f : \R^2 \to \R$ diferenciable en $P \in \R^2$. Probar que $f$ es
+continua en $P$.
+
+\begin{demo}
+Sea $P = (x_0,y_0)$. Por definici'on de diferenciable existen las derivadas
+parciales en $P$ $\parcial{f}{x}(x_0,y_0) = a$ y $\parcial{f}{x}(x_0,y_0) = b$
+y se cumple que
+\begin{eqnarray}
+\label {lim-dif}
+\limite{(x,y)}{(x_0,y_0)} \frac{f(x,y) - f(x_0,y_0) - a(x-x_0) - b(y-y_0)}
+                                 { \norma{(x-x_0,y-y_0)}} &=& 0
+\end{eqnarray}
+Es claro que
+\begin{eqnarray}
+\label{lim-a} \limite{(x,y)}{(x_0,y_0)} a(x-x_0) &=& 0 \\
+\label{lim-b} \limite{(x,y)}{(x_0,y_0)} b(y-y_0) &=& 0 \\
+\label{lim-norma}\limite{(x,y)}{(x_0,y_0)} \norma{(x-x_0,y-y_0)} &=& 0
+\end{eqnarray}
+
+Por ser todos l'imites convergentes podemos operar con ellos y hacer:
+\begin{small}
+\begin{eqnarray*}
+(\ref{lim-dif}) (\ref{lim-norma}) + (\ref{lim-a}) + (\ref{lim-b}) = 
+	0 \cdot 0 + 0 + 0 &=& 0 \\
+\limite{(x,y)}{(x_0,y_0)} 
+\frac{f(x,y) - f(x_0,y_0) - a(x-x_0) - b(y-y_0)}{ \norma{(x-x_0,y-y_0)}}
+	\norma{(x-x_0,y-y_0)} + a(x-x_0) + b(y-y_0) &=& 0 \\
+\limite{(x,y)}{(x_0,y_0)}  f(x,y) - f(x_0,y_0) &=& 0, \\
+\end{eqnarray*}
+\end{small}
+y como $f(x_0,y_0)$ es una constante 
+$\limite{(x,y)}{(x_0,y_0)} f(x,y) = f(x_0,y_0)$, o sea, $f$ es continua en
+$(x_0,y_0) = P$, que es lo que quer'iamos demostrar.
+\end{demo}
+
+\item Sea $f : U \subseteq \R^2 \to \R$ con derivadas parciales continuas en 
+$U$. Probar que $f$ es diferenciable en $U$.
+
+\begin{demo}
+Primero notemos que,
+\begin{eqnarray}
+\label{delta-x-acotado}
+-1 \leq \frac{x-x_0}{\norma{(x-x_0,y-y_0)}},
+	\frac{y-y_0}{\norma{(x-x_0,y-y_0)}}  \leq 1.
+\end{eqnarray}
+Luego, por definici'on de derivada en una variable se cumple para todo $y_0$
+que
+$$\limite{x}{x_0} \frac{f(x,y_0)-f(x_0,y_0)-\parcial{f}{x}(x_0,y_0)(x-x_0)}
+                       {x-x_0} = 0$$
+y en particular como $y$ no aparece, podemos hacerlo tender tambi'en a $y_0$,
+$$\limite{(x,y)}{(x_0,y_0)} \frac{f(x,y_0)-f(x_0,y)-
+                                    \parcial{f}{x}(x_0,y_0)(x-x_0)}
+                       	         {x-x_0} = 0$$
+y por (\ref{delta-x-acotado}) podemos decir que
+\begin{eqnarray}
+\limite{(x,y)}{(x_0,y_0)} \frac{f(x,y_0)-f(x_0,y_0)-
+                                    \parcial{f}{x}(x_0,y_0)(x-x_0)}
+                       	       {x-x_0} 
+                       	  \frac{x-x_0}
+                       	       {\norma{(x-x_0,y-y_0)}} &=& 0 \nonumber \\
+\label{elim-dx}
+\limite{(x,y)}{(x_0,y_0)} \frac{f(x,y_0)-f(x_0,y_0)-
+                                    \parcial{f}{x}(x_0,y_0)(x-x_0)}
+                       	       {\norma{(x-x_0,y-y_0)}} &=& 0
+\end{eqnarray}
+
+Ahora, veamos que, usando teorema del valor medio en una variable
+$$f(x,y)-f(x,y_0)=\parcial{f}{y}(x,c_{y,y_0})(y-y_0),$$
+donde $c_{y,y_0} \in [y,y_0]$. Como $f$ es de clase $C^1$ $\parcial{f}{y}$ es
+continua y entonces,
+$$\limite{(x,y)}{(y,y_0)} \parcial{f}{y}(x,c_{y,y_0}) - 
+	\parcial{f}{y}(x_0,y_0) = 0,$$
+porque $c_{y,y_0} \rightarrow y_0$ cuando $y \rightarrow y_0$.
+Ahora, de vuelta usando (\ref{delta-x-acotado}) podemos decir que
+\begin{eqnarray}
+\limite{(x,y)}{(x_0,y_0)} \left( \parcial{f}{y}(x,c_{y,y_0}) - 
+									\parcial{f}{y}(x_0,y_0)  \right)
+					\frac{y-y_0}{\norma{(x-x_0,y-y_0)}} &=& 0 \nonumber \\
+\limite{(x,y)}{(x_0,y_0)} \frac{ \parcial{f}{y}(x,c_{y,y_0})(y-y_0) - 
+									\parcial{f}{y}(x_0,y_0)(y-y_0)}
+							   {\norma{(x-x_0,y-y_0)}} &=& 0 \nonumber \\
+\label{elim-dy}
+\limite{(x,y)}{(x_0,y_0)} \frac{ f(x,y)-f(x,y_0) - 
+									\parcial{f}{y}(x_0,y_0)(y-y_0)}
+							   {\norma{(x-x_0,y-y_0)}} = 0. \\		
+\end{eqnarray}
+Finalmente, sumando (\ref{elim-dx}) y (\ref{elim-dy}),
+\begin{eqnarray*}
+\limite{(x,y)}{(x_0,y_0)} 
+	\frac{f(x,y_0)-f(x_0,y_0)-\parcial{f}{x}(x_0,y_0)(x-x_0)}
+         {\norma{(x-x_0,y-y_0)}} +
+	\frac{ f(x,y)-f(x,y_0) - \parcial{f}{y}(x_0,y_0)(y-y_0)}
+		 {\norma{(x-x_0,y-y_0)}} &=& 0 \\
+\limite{(x,y)}{(x_0,y_0)} 
+	\frac{f(x,y_0)-f(x_0,y_0)-\parcial{f}{x}(x_0,y_0)(x-x_0) +
+		  f(x,y)-f(x,y_0) - \parcial{f}{y}(x_0,y_0)(y-y_0)}
+		 {\norma{(x-x_0,y-y_0)}} &=& 0 \\
+\limite{(x,y)}{(x_0,y_0)} 
+	\frac{f(x,y)-f(x_0,y_0)-\parcial{f}{x}(x_0,y_0)(x-x_0) +
+		  - \parcial{f}{y}(x_0,y_0)(y-y_0)}
+		 {\norma{(x-x_0,y-y_0)}} &=& 0 \\
+\end{eqnarray*}
+
+\end{demo}
+
+\item Sea $f : \R^2 \to \R$ diferenciable en $P \in \R^2$ y $v \in \R^2$ tal
+que $\norma{v} = 1$. Probar que existe $f_v(P)$ y es igual a 
+$\grad f(P) \cdot v$.
+
+\begin{demo}
+Sea $P = (x_0,y_0)$ y $v = (c,d)$. Por definici'on de diferenciable existen 
+las derivadas parciales en $P$ $\parcial{f}{x}(x_0,y_0) = a$ y
+$\parcial{f}{x}(x_0,y_0) = b$ y se cumple que
+\begin{eqnarray*}
+\limite{(x,y)}{(x_0,y_0)} \frac{f(x,y) - f(x_0,y_0) - a(x-x_0) - b(y-y_0)}
+                                 { \norma{(x-x_0,y-y_0)}} &=& 0,
+\end{eqnarray*}
+en particular, podemos ver dicho l'imite por la recta $x(t)=x_0+tc$, 
+$y(t)=y_0+td$,
+\begin{eqnarray*}
+\limite{t}{0} 
+	\frac{f(x_0+tc,y_0+td) - f(x_0,y_0) - a(x_0+tc-x_0) - b(y_0+td-y_0)}
+                                 {t} &=& 0 \\
+\limite{t}{0} 
+	\frac{f(x_0+tc,y_0+td) - f(x_0,y_0) - atc - btd}
+                                 {t} &=& 0 \\
+\limite{t}{0} 
+	\frac{f(x_0+tc,y_0+td) - f(x_0,y_0)}{t} - (ac + bd) &=& 0 \\
+f_v(P) &=& (a,c) \cdot (b,d)\\
+f_v(P) &=& \grad f(P) \cdot v.
+\end{eqnarray*}
+\end{demo}
+
+\item Sea $f : \R^2 \to \R$ diferenciable en $P \in \R^2$ tal que
+$\grad f(P) \neq 0$. Probar que la direcci'on de m'aximo crecimiento est'a
+dada por $\grad f(P)$.
+
+\begin{demo}
+Queremos hallar un $v$ de norma $1$ tal que $f_v(P)$ sea m'aximo. Sabemos que
+$f_v(P) = \grad f(P) \cdot v = \norma{v} \norma{\grad f(P)} \cos(\theta) = 
+\norma{\grad f(P)} \cos(\theta)$
+donde $\theta$ es el 'angulo entre $v$ y $\grad f(P)$. Dado que
+$\norma{\grad f(P)}$ es fijo, solo podemos fijar $\theta$ tal que
+$\cos(\theta)$ sea m'aximo, y esto es as'i cuando $\theta = 0$ ya que el coseno
+toma su m'aximo valor ($1$). Esto quiere decir que el 'angulo entre $v$, 
+la direcci'on de m'aximo crecimiento, y el gradiente es $0$, por lo cual ambas
+apuntan en la misma direcci'on.
+\end{demo}
+
+\item Teorema del valor medio para funciones diferenciables: Sea 
+$f : U \subset \R^n \to \R$ definida sobre el abierto $U$. Sean 
+$P_1,P_2 \in U$ tales que el segmento $P_1 P_2$ esta contenido en $U$. Existe
+un punto $P$ tal que
+$$f(P_1) - f(P_2) = \grad f(P) \cdot (P_1 - P_2).$$
+
+\begin{demo}
+Sea $\sigma : \R \to \R^n$ tal que $\sigma(t) = P_2 + t(P_1 - P_2)$. Sea 
+$g : \R \to \R$ tal que $g = f \comp \sigma$. Como $f$ y $\sigma$ son
+diferenciables, $g$ tambi'en lo es. Por teorema del valor medio existe 
+$c \in [0,1]$ tal que $g(1) - g(0) = g'(c)(1 - 0) = g'(c)$.
+$$g'(c) = (f \comp \sigma)'(c) = \grad f(\sigma(c)) \D \sigma(c) = 
+	\grad f(\sigma(c)) (P_1 - P_2)^t = \grad f(\sigma(c)) \cdot (P_1 - P_2),$$
+dado que $c \in [0,1]$ sabemos que $\sigma(c) \in P_1 P_2 \subset U$ y por lo
+tanto tomando $P = \sigma(c) \in U$ queda:
+$$g(1) - g(0) = f(P_1) - f(P_2) = \grad f(P) \cdot (P_1 - P_2),$$
+que es lo que quer'iamos demostrar.
+\end{demo}
+
+\item Sea $f : \R^2 \to \R$ diferenciable en $P \in \R^2$ y $P$ un extremo de 
+$f$. Probar que $\grad f(P) = 0$.
+
+\begin{demo}
+Sea $(x_0,y_0) = P$. Supongamos que $\grad f(P) \neq 0$. Esto implica 
+$\parcial{f}{x}(P) \neq 0$ o $\parcial{f}{y}(P) \neq 0$. Sin p'erdida de
+generalidad supongamos $\parcial{f}{x}(P) \neq 0$ (la demostraci'on en el otro
+caso es an'aloga). Sea la funci'on $g : \R \to \R$ tal que $g(x) = f(x,y_0)$. 
+Como $g$ es composici'on de diferenciables, es diferenciable (derivable).
+Es claro que $g'(x_0) = \parcial{f}{x}(x_0,y_0) = \parcial{f}{x}(P) \neq 0$
+y por lo tanto $x_0$ no es extremo de $g$. Esto quiere decir que hay valores
+$x_1$ tan cercanos a $x_0$ como se quiera tal que $g(x_0) < g(x_1)$ y lo
+mismo para $g(x_0) > g(x_1)$. Podemos entonces construir el punto $(x_1,y_0)$
+tan cerca como se quiera de $(x_0,y_0)$ tal que
+$f(x_1,y_0) = g(x_1) < g(x_0) = f(x_0,y_0)$ o que 
+$f(x_1,y_0) = g(x_1) > g(x_0) = f(x_0,y_0)$, con lo cual $(x_0,y_0) = P$ no es
+extremo de $P$. Por contrarec'iproco, si $P$ es extremo de $f$,
+$\grad f(P) = 0$.
+\end{demo}
+
+\item Sea $f : \R^2 \to \R$ de clase $C^3$ y $P$ un punto cr'itico de $f$. 
+Probar que:
+\begin{itemize}
+\item si el hessiano de $f$ en $P$ es definido positivo, entonces $P$ es un 
+m'inimo relativo estricto de $f$.
+\item si el hessiano de $f$ en $P$ es definido negativo, entonces $P$ es un 
+m'aximo relativo estricto de $f$.
+\item si el hessiano de $f$ en $P$ es indefinido (o sea, no es definido 
+positivo ni negativo), entonces $P$ es un punto silla de $f$.
+\end{itemize}
+
+\begin{demo}
+Reescribamos $f$ como su polinomio de taylor de orden $2$
+centrado en $P$ mas el resto de lagrange (el t'ermino lineal no 
+aparece ya que $P$ es punto cr'itico de $f$ y por lo tanto su
+gradiente es nulo) \footnote{para la expresi'on del resto usamos un abuso de 
+notaci'on, con la idea de hacer mas concisa la demostraci'on, $P_u$ denota el
+valor de la coordenada $u$ en el punto $P$.}:
+\begin{eqnarray}
+\label{taylor-f}
+f(Q) &=& f(P) + \frac{1}{2} (Q-P)^t (\He f) (Q-P) + \\ 
+     & & \frac{1}{6} \sum_{u,v,w \in \{x,y\}} (Q_u-P_u)(Q_v-P_v)(Q_w-P_w)
+	\parcial{^3 f}{u \partial v \partial w} (\xi_{u,v,w}).
+\end{eqnarray}
+La funci'on definida por $g(v) = v^t (\He f) v$ para los $v$ de norma $1$ es
+una funci'on continua sobre un compacto y por lo tanto alcanza un m'inimo $m$
+y un m'aximo $M$. Si $\He f$ es definida positiva ser'a $0 < m \leq M$, si
+es definida negativa ser'a $m \leq M < 0$ y si es indefinida ser'a 
+$m \leq 0 \leq M$. Si utilizamos vectores de norma distinto de $1$ se 
+mantienen dichos l'imites multiplicados por la norma del vector al cuadrado 
+(ya que la funci'on $g$ es bilineal).
+
+Acotemos entonces con esto la expresi'on \label{taylor-f} resulta:
+\begin{eqnarray}
+f(Q) &\geq& f(P) + \norma{(Q-P)}^2 \frac{m}{2} + 
+\frac{1}{6} \sum_{u,v,w \in \{x,y\}} (Q_u-P_u)(Q_v-P_v)(Q_w-P_w)
+	\parcial{^3 f}{u \partial v \partial w} (\xi_{u,v,w}) \\
+f(Q) &\leq& f(P) + \norma{(Q-P)}^2 \frac{M}{2} + 
+\frac{1}{6} \sum_{u,v,w \in \{x,y\}} (Q_u-P_u)(Q_v-P_v)(Q_w-P_w)
+	\parcial{^3 f}{u \partial v \partial w} (\xi_{u,v,w}).
+\end{eqnarray}
+
+Ahora, el valor de las terceras derivadas parciales, para los $Q$ cercanos a
+$P$ es acotable por una constante, y si acotamos $(Q_u-P_u)(Q_v-P_v)(Q_w-P_w)$
+por la norma al cubo (siempre en valor absoluto), obtenemos:
+
+\begin{eqnarray}
+\label{taylor-acotado-f-min}
+f(Q) &\geq& f(P) + \norma{(Q-P)}^2 \frac{m}{2} - 
+K \norma{(Q-P)}^3\\
+\label{taylor-acotado-f-max}
+f(Q) &\leq& f(P) + \norma{(Q-P)}^2 \frac{M}{2} + 
+K \norma{(Q-P)}^3\\
+\end{eqnarray}
+
+Con lo cual, asumiendo $\min(m,M) \neq 0$ y tomando $Q$ suficientemente 
+cerca de $P$ tal que $0 < \norma{(Q-P)} < \frac{\min(|m|,|M|)}{2K}$, vemos que:
+\begin{itemize}
+\item Si el hessiano es definido positivo, usando \ref{taylor-acotado-f-min}
+queda $f(Q)$ mayor o igual a $f(P)$ mas algo positivo para un entorno de $P$,
+o sea $P$ es m'inimo local.
+\item Si el hessiano es definido negativo, usando \ref{taylor-acotado-f-max}
+an'alogamente, $P$ es m'aximo local.
+\item Si el hessiano es indefinido y $m < 0$ y $M > 0$ utilizando $Q$
+suficientemente cerca de $P$ y en la direcci'on que da el m'inimo $m$, vemos
+que $f(P) > f(Q)$, y an'alogamente en la direcci'on que da el m'aximo $M$
+$f(P) < f(Q)$, con lo cual $P$ no es m'aximo ni m'inimo local, con lo cual
+es punto silla. Si $m=0$/$M=0$ puede pasar cualquier cosa (depende del resto, 
+del que no sabemos nada) con el m'aximo/m'inimo.
+\end{itemize}
+\end{demo}
+
+\item Sea $f : \R^2 \to \R$ diferenciable, 
+$S = \{(x,y) \in \R^2 : g(x,y) = 0\}$ y $P \in S$. Si $P$ es extremo de $f$
+restringido a $S$ y $\grad g(P) \neq 0$, probar que existe $\lambda \in \R$
+tal que $\grad f(P) = \lambda \grad g(P)$.
+
+\begin{demo}
+Sea $P = (x,y)$. Por teorema de la funci'on impl'icita (aplica porque 
+$\grad g(P) \neq 0$) existe una funci'on $h$ tal que en una vecindad de $P$ se
+cumple $g(x,h(x)) = 0$. Podemos ver entonces que en dicha vecindad 
+$\grad g = 0$ lo que implica, por regla de la cadena,
+$$\grad g(x,h(x))(x,h(x)) = \grad g(x,h(x)) \cdot (1, h'(x)) = 0.$$
+Ahora lo que queremos es un extremo de $f(x,h(x))$ sin ninguna restricci'on
+(ya que el punto $(x,h(x))$ siempre pertence a $S$). Para esto tomamos el 
+gradiente igual a $0$: $\grad f(x,h(x))(x,h(x)) = 
+	\grad f(x,h(x)) \cdot (1, h'(x)) = 0$.
+Dado que $\grad g(x,h(x))$ y $\grad f(x,h(x))$ son ambos perpendiculares al
+vector $(1,h'(x))$ (su producto interno da $0$), deben ser paralelos entre s'i,
+por lo cual existe $\lambda$ tal que 
+$\grad f(x,h(x)) = \lambda \grad g(x,h(x))$ y como $P \in S \lthen y = h(x) 
+\lthen P = (x,h(x))$ queda demostrado el teorema.
+\end{demo}
+
+\end{enumerate}
+
+\subsection{Integraci'on}
+
+\begin{enumerate}
+
+\item Sea $f : [a,b] \to \R$ continua. Probar que $f$ es integrable sobre
+$[a,b]$.
+
+\begin{demo}
+Recordando la definici'on de integral (Definici'on~\ref{defi-integral})
+queremos ver que
+$$\inf(\{\sum_{c \in C} |c| M_c\}) \mbox{ y } 
+		\sup(\{\sum_{c \in C} |c| m_c\})$$
+coinciden, donde $C$ es una partici'on en intervalos de $[a,b]$, $M_c$ es el
+supremo de la imagen de $f$ sobre $c$ y $m_c$ es su 'infimo.
+Dado que $f$ es continua sobre un compacto, es acotada y por lo tanto $M_c$ y 
+$m_c$ est'an definidas para todo $c$. Es claro que todos los elementos del
+conjunto de sumas superiores son mayores o iguales a todos los del conjunto de 
+sumas inferiores, ya que dadas una partici'on de cada conjunto, tomando un 
+refinamiento com'un es claro que la que usa supremos es mayor o igual.
+Ahora, veamos que para cualquier $\eps > 0$
+existe una suma superior y una inferior que estan a lo sumo a $\eps$ de
+distancia. Como $f$ es continua sobre un compacto, es uniformemente continua, 
+y por lo tanto para cualquier $\eps' > 0$ existe $\delta$ tal que
+$|x-y| < \delta \lthen |f(x)-f(y)| < \eps'$. Sea tal $\delta$ para
+$\eps' = \eps/(b-a)$. Tomemos la partici'on $C$ de $[a,b]$ tal que,
+$$C = \left\{[a+i\frac{\delta}{2},a+(i+1)\frac{\delta}{2})\ | i \in \N,
+		0 \leq i \leq \left\lfloor 2\frac{b-a}{\delta} \right\rfloor \right\} 
+	\cup \left\{[a+\frac{\delta}{2}\left\lfloor 2\frac{b-a}{\delta} 
+		\right\rfloor,b]\right\}$$
+Ahora, cualquier par de reales en esos intervalos estan a distancia menor o
+igual a $\delta/2 < \delta$, por lo cual el m'aximo y el m'inimo de cada 
+intervalo estan a distancia menor a $\eps'$. Tomemos la diferencia entre la
+suma superior y la suma inferior sobre $C$,
+$$\sum_{c \in C} (M_c - m_c) |c| < \sum_{c \in C} \eps' |c| = 
+	\eps' \sum_{c \in C} |c| = \eps' (b-a) = \eps.$$
+De esta manera vemos que la diferencia entre el supremo de las sumas 
+inferiores y el 'infimo de las superiores no puede ser ning'un $\eps > 0$, 
+por lo tanto es $0$.
+\end{demo}
+
+\item Teorema fundamental del c'alculo. Si $f$ es continua en $[a,b]$, 
+$x \in [a,b]$,
+$$\frac{d}{dx} \int_a^x f(t) dt = f(x).$$
+
+\begin{demo}
+Por definici'on de derivada
+\begin{eqnarray*}
+\frac{d}{dx} \int_a^x f(t) dt &=& 
+	\limite{h}{0} \frac{\int_a^{x+h} f(t) dt - \int_a^x f(t) dt}{h} \\
+&=& \limite{h}{0} \frac{\int_x^{x+h} f(t) dt}{h}
+\end{eqnarray*}
+Sea $M_h$ el m'aximo para $f$ en $[x,x+h]$ (existe porque $[x,x+h]$ es un
+compacto) y $m_h$ el m'inimo ('idem). Ahora podemos acotar el l'imite como
+$$
+\begin{array}{rcccl}
+\displaystyle \limite{h}{0} \frac{m_h h}{h} &\leq&
+\displaystyle \limite{h}{0} \frac{\int_x^{x+h} f(t) dt}{h} &\leq&
+\displaystyle \limite{h}{0} \frac{M_h h}{h} \\
+\displaystyle \limite{h}{0} m_h &\leq&
+\displaystyle \limite{h}{0} \frac{\int_x^{x+h} f(t) dt}{h} &\leq&
+\displaystyle \limite{h}{0} M_h \\
+\end{array}
+$$
+y como
+$$\limite{h}{0} M_h = \limite{h}{0} m_h = f(x),$$
+queda demostrado.
+\end{demo}
+
+\item Teorema del valor medio para integrales doles: Sea $P \in \R^2$. Si $f$
+es continua en $\bar{B(P,r)}$ entonces existe $Q \in \bar{B(P,r)}$ tal que,
+$$\frac{1}{\mbox{'Area}(B(P,r))} \iint_{B(P,r)} f(x,y)\ dA = f(Q).$$
+\begin{demo}
+Como $f$ es una funci'on continua en el compacto $\bar{B(P,r)}$, alcanza su
+m'aximo $f(M)$ en alg'un punto $M$ y su m'inimo $f(N)$ en alg'un punto $N$.
+De esta manera podemos acotar la integral de $f$ sobre $B(P,r)$ haciendo
+$$
+\begin{array}{rcccl}
+\displaystyle \iint_{B(P,r)} f(N)\ dA &\leq& 
+	\displaystyle \iint_{B(P,r)} f(x,y)\ dA &\leq&
+ 		\displaystyle \iint_{B(P,r)} f(M)\ dA \\[0.2cm]
+\displaystyle f(N) \iint_{B(P,r)} 1\ dA &\leq&
+	\displaystyle \iint_{B(P,r)} f(x,y)\ dA &\leq&
+		\displaystyle f(M) \iint_{B(P,r)} 1\ dA \\[0.2cm]
+\displaystyle f(N) \mbox{'Area}(B(P,r)) &\leq&
+	\displaystyle \iint_{B(P,r)} f(x,y)\ dA &\leq&
+		\displaystyle f(M) \mbox{'Area}(B(P,r)) \\[0.2cm]
+\displaystyle f(N) &\leq& \displaystyle
+	\frac{1}{\mbox{'Area}(B(P,r))} \iint_{B(P,r)} f(x,y)\ dA &\leq&
+		\displaystyle f(M)
+\end{array}
+$$
+notando en el 'ultimo paso que el 'area es siempre positiva. Dado que $f$ es
+continua podemos definir su restriccion $g$ al segmento $MN$ de forma continua
+y por Bolsano existe en dicho segmento un punto $Q$ tal que $f(Q)$ es
+exactamente lo que quer'iamos demostrar.
+\end{demo}
+
+\end{enumerate}
+
+\label{theend}
+\end{document}
